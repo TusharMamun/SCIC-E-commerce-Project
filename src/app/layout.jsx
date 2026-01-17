@@ -24,29 +24,31 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased font-poppins`}
-      >
-        <ClerkProvider
-          appearance={{
-            variables: {
-              colorPrimary: '#2563eb', // blue-600
-              borderRadius: '0.5rem',
-            },
-            elements: {
-              formButtonPrimary: 'bg-blue-600 hover:bg-blue-700',
-              footerActionLink: 'text-blue-600 hover:text-blue-700',
-            }
-          }}
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorPrimary: '#2563eb', // blue-600
+          borderRadius: '0.5rem',
+        },
+        elements: {
+          formButtonPrimary: 'bg-blue-600 hover:bg-blue-700',
+          footerActionLink: 'text-blue-600 hover:text-blue-700',
+        }
+      }}
+    >
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased font-poppins`}
         >
-          <Header />
-          <main className="min-h-screen">
+   <div className="flex flex-col">
+           <Header />
+          <main >
             {children}
           </main>
           <Footer />
-        </ClerkProvider>
-      </body>
-    </html>
+   </div>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
