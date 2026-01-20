@@ -3,6 +3,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/ui/Footer";
 import { ClerkProvider } from '@clerk/nextjs'
+import NextAuthProvider from "@/provider/NextAuthProvider";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +26,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider
+    <NextAuthProvider>
+    {/* <ClerkProvider
       appearance={{
         variables: {
           colorPrimary: '#2563eb', // blue-600
@@ -35,7 +38,9 @@ export default function RootLayout({ children }) {
           footerActionLink: 'text-blue-600 hover:text-blue-700',
         }
       }}
-    >
+    > */}
+<>  
+
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased font-poppins`}
@@ -49,6 +54,9 @@ export default function RootLayout({ children }) {
    </div>
         </body>
       </html>
-    </ClerkProvider>
+
+      </>
+
+    </NextAuthProvider>
   );
 }

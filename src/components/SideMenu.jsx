@@ -6,7 +6,8 @@ import Logo from './Logo'
 import { X } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import SocialMedia from './SocialMedia'
-import { useOutsideClick } from '@/hooks/useOutsideClick' // Import the hook
+import { useOutsideClick } from '@/Hooks/useOutsideClick'
+
 
 const SideMenu = ({ isOpen, onClose }) => {
     const pathname = usePathname()

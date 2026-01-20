@@ -1,82 +1,86 @@
-import ProductCard from '@/components/Cards/ProductCard'
-import Container from '@/components/Container'
-import { Subtext } from '@/components/ui/Text'
+import ProductCard from "@/components/Cards/ProductCard";
+import Container from "@/components/Container";
 
 const getProducts = async () => {
   try {
-    const res = await fetch("https://taxi-kitchen-api.vercel.app/api/v1/foods/random", {
-      // Optional: Configure caching
-      // cache: 'no-store',
-      // next: { revalidate: 3600 }
-    })
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/addproduct`
     
-    if (!res.ok) {
-      console.error('Failed to fetch products')
-      return []
+    const res = await fetch(url, {
+      cache: 'no-store',
+    });
+    
+    const data = await res.json();
+
+    if (data.success) {
+      return {
+        products: data.data || [],
+        success: true
+      };
+    } else {
+      throw new Error('API returned unsuccessful response');
     }
     
-    const data = await res.json()
-    
-    // REMOVE or reduce timeout - 1000ms max for testing
-    // await new Promise((resolve) => setTimeout(resolve, 1000)) // 1 second
-    
-    return data.foods || []
   } catch (error) {
-    console.error("Error fetching products:", error)
-    return []
+  
+    return { 
+      products: [], 
+      success: false 
+    };
   }
 }
 
-const ShopPage = async () => {
-  const foods = await getProducts()
+export default async function ShopPage() {
+  const { products, success } = await getProducts();
 
   return (
     <Container>
-      {/* Page Header Section */}
-      <div className="mb-10">
-        <h1 className="text-4xl font-bold text-gray-900 mb-3">Our Menu</h1>
-        <Subtext className="text-lg text-gray-600">
-          Discover a world of delicious meals, freshly picked for you.
-        </Subtext>
-        
-        {/* Stats Bar */}
-        <div className="mt-6 p-4 bg-green-50 rounded-lg inline-block">
-          <h2 className="text-xl font-semibold text-green-800">
-            Total Products Found: <span className='text-red-600'>{foods.length}</span>
-          </h2>
-          <p className="text-sm text-green-700 mt-1">
-            Showing a random selection from our full collection of 304 dishes.
-          </p>
-        </div>
+      {/* Page Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          All Products
+        </h1>
+        <p className="text-gray-600">
+          Browse our complete collection of products
+        </p>
       </div>
 
-      {/* Product Grid */}
-      {foods.length > 0 ? (
-        <>
-          {/* Category Filter Bar */}
-          <div className="mb-8 flex flex-wrap gap-2">
-            <button className="px-4 py-2 bg-shop-dark-green text-white rounded-full font-medium">
-              All Dishes
-            </button>
-          </div>
+      {/* Products Count */}
+      {products.length > 0 && (
+        <div className="mb-6 text-sm text-gray-500">
+          Showing {products.length} products
+        </div>
+      )}
 
-          {/* Main Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-            {foods.map((food) => (
-              <ProductCard key={food.id} product={food} />
-            ))}
-          </div>
-        </>
-      ) : (
-        <div className="text-center py-20">
-          <h3 className="text-2xl font-semibold text-gray-500 mb-4">
-            No dishes available at the moment.
+      {/* Products Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {products.map((product) => (
+          <ProductCard key={product._id || product.id} product={product} />
+        ))}
+      </div>
+
+      {/* No Products Message */}
+      {success && products.length === 0 && (
+        <div className="text-center py-16">
+          <h3 className="text-xl font-medium text-gray-700 mb-2">
+            No products found
           </h3>
-          <p className="text-gray-400">Please try again later.</p>
+          <p className="text-gray-500">
+            Check back later for new arrivals.
+          </p>
+        </div>
+      )}
+
+      {/* Error State */}
+      {!success && (
+        <div className="text-center py-16">
+          <h3 className="text-xl font-medium text-gray-700 mb-2">
+            Failed to load products
+          </h3>
+          <p className="text-gray-500">
+            Please try refreshing the page.
+          </p>
         </div>
       )}
     </Container>
-  )
+  );
 }
-
-export default ShopPage

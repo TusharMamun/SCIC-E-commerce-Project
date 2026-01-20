@@ -59,7 +59,7 @@
 }
 
 :root {
-   --font-poppins: Poppins, "sans-serif";
+  --font-poppins: Poppins, "sans-serif";
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -136,12 +136,276 @@
     @apply bg-background text-foreground;
   }
   .hoverEffect {
-@apply transition-all duration-300 ease-in-out;
+    @apply transition-all duration-300 ease-in-out;
   }
-  button{
-    @apply hover:cursor-pointer
+  button {
+    @apply hover:cursor-pointer;
   }
 }
-body{
-  font-family:var(--font-poppins)
+
+body {
+  font-family: var(--font-poppins);
 }
+
+/* ========== ANIMATIONS ========== */
+
+/* Keyframes */
+@keyframes blob {
+  0%, 100% { 
+    transform: translate(0px, 0px) scale(1); 
+  }
+  33% { 
+    transform: translate(40px, -60px) scale(1.1); 
+  }
+  66% { 
+    transform: translate(-30px, 30px) scale(0.9); 
+  }
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-20px) rotate(180deg); 
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% { 
+    opacity: 1; 
+  }
+  50% { 
+    opacity: 0.8; 
+  }
+}
+
+@keyframes border {
+  0% { 
+    background-position: 0% 50%; 
+  }
+  100% { 
+    background-position: 200% 50%; 
+  }
+}
+
+@keyframes border-glow {
+  0% { 
+    opacity: 0.5;
+    filter: blur(10px);
+  }
+  50% { 
+    opacity: 1;
+    filter: blur(20px);
+  }
+  100% { 
+    opacity: 0.5;
+    filter: blur(10px);
+  }
+}
+
+@keyframes shimmer {
+  0% { 
+    transform: translateX(-100%); 
+  }
+  100% { 
+    transform: translateX(100%); 
+  }
+}
+
+@keyframes line {
+  0% { 
+    transform: translateX(-100%); 
+    opacity: 0; 
+  }
+  50% { 
+    opacity: 0.3; 
+  }
+  100% { 
+    transform: translateX(100%); 
+    opacity: 0; 
+  }
+}
+   @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        
+
+/* Animation Classes */
+.animate-blob {
+  animation: blob 25s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-float {
+  animation: float 15s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+.animate-border {
+  animation: border 3s linear infinite;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  background-size: 200% 100%;
+}
+
+.animate-border-glow {
+  animation: border-glow 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
+}
+
+.animate-line {
+  animation: line 15s linear infinite;
+}
+
+/* Animation Delays */
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+.animation-delay-6000 {
+  animation-delay: 6s;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .animate-blob {
+    animation-duration: 30s;
+    opacity: 0.15;
+  }
+  
+  .animate-float {
+    animation-duration: 20s;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .animate-blob {
+    animation-duration: 40s;
+    opacity: 0.1;
+  }
+  
+  .animate-border {
+    animation-duration: 4s;
+  }
+          .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+  
+  .animate-border-glow {
+    animation-duration: 3s;
+  }
+}
+
+@media (max-width: 640px) {
+  .animate-blob {
+    display: none;
+  }
+  
+  .animate-float {
+    animation-duration: 25s;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better focus styles */
+*:focus {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: white;
+}
+
+
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+/* Smooth tab transitions */
+.tab-content {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Price pulse animation */
+@keyframes pricePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.price-pulse {
+  animation: pricePulse 2s infinite;
+}
+
+/* Custom scrollbar for thumbnails */
+.thumbnail-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.thumbnail-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.thumbnail-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.thumbnail-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+/* ========== END OF ANIMATIONS ========== */
+
+
+
+

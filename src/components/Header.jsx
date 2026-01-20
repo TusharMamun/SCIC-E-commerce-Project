@@ -5,17 +5,15 @@ import HeaderMenu from './HeaderMenu'
 import SearchBar from './SearchBar'
 import CartIcon from './CartIcon'
 import FavoriteButton from './FavoriteButton'
-import SingIn from './SingIn'
 import MobileMenu from './MobileMenu'
-import { currentUser } from '@clerk/nextjs/server'
-import { UserButton } from '@clerk/nextjs'
+import Link from 'next/link'
+import LogingButton from './Auth/LogingButton'
+import Usercard from './Cards/Usercard'
+import AuthComponent from './Auth/AuthComponent'
 
-const Header = async () => {
-  const user = await currentUser()
-
-  
+const Header = () => {
   return (
-    <header className='bg-white py-5 '>
+    <header className='bg-white py-5'>
       <Container className="flex items-center justify-between text-light-color">
         <div className='w-auto md:1/3 flex items-center gap-2.5 justify-start md:gap-0'>
           <MobileMenu/>
@@ -28,20 +26,10 @@ const Header = async () => {
           <SearchBar/>
           <CartIcon/>
           <FavoriteButton/>
+   
           
-          {/* Display UserButton if logged in, SingIn if not */}
-          {user ? (
-            <UserButton 
-              afterSignOutUrl="/"
-              appearance={{
-                elements: {
-                  avatarBox: "w-10 h-10"
-                }
-              }}
-            />
-          ) : (
-            <SingIn />
-          )}
+          {/* Register and Login buttons */}
+        <AuthComponent></AuthComponent>
         </div>
       </Container>
     </header>
